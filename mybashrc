@@ -1,0 +1,34 @@
+
+# Lines to be added to the .bashrc for automating cloudsim setup.
+
+# Set a variable with my usnername
+USERNAME="bbingham"
+
+# Change permissions on setup file
+chmod +x ~/${USERNAME}/catkin_ws/devel/_setup_util.py
+
+# Setup for ROS
+source /opt/ros/noetic/setup.bash 
+source ~/${USERNAME}/catkin_ws/devel/setup.bash
+
+# My git information.
+git config --global user.name "Brian Bingham"
+git config --global user.email "briansbingham@gmail.com"
+
+# I've already created this ssh key, so add it so that I can use ssh to pull/push to github
+if [ $(ps ax | grep [s]sh-agent | wc -l) -gt 0 ] ; then
+    echo "ssh-agent is already running"
+else
+    eval $(ssh-agent -s)
+    if [ "$(ssh-add -l)" == "The agent has no identities." ] ; then
+        ssh-add ~/${USERNAME}/ssh/id_ed25519
+    fi
+
+    # Don't leave extra agents around: kill it on exit. You may not want this part.
+    #trap "ssh-agent -k" exit
+fi
+
+# This is a bit hackish.  It may break some things, but it reminds me to do all my work in the 
+# persistent storage.
+#export HOME=/home/developer/${USERNAME}
+
