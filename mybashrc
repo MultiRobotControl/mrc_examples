@@ -34,11 +34,13 @@ if [ "$?" == 2 ]; then
 fi
 
 # Load identities
+SSHKEY="${HOME}/${USERNAME}/ssh/id_ed25519"
+chmod 600 ${SSHKEY}
 ssh-add -l &>/dev/null
 if [ "$?" == 1 ]; then
     # The agent has no identities.
     # Time to add one.
-    ssh-add ~/${USERNAME}/ssh/id_ed25519
+    ssh-add ${SSHKEY}
 fi
 
 
