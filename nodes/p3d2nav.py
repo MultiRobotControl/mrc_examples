@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 '''
 Node to emulate integrated imu/gps sensor (e.g., microstrain) using P3D plugin.
 

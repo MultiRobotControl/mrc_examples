@@ -47,7 +47,7 @@
   <arg name="urdf" default="$(find mrc_examples)/urdf/cora_p3d.xacro"/>
 
   <param name="$(arg namespace)/robot_description"
-         command="$(find xacro)/xacro &#x002D;&#x002D;inorder '$(arg urdf)'
+         command="$(find xacro)/xacro '$(arg urdf)'
          locked:=$(arg robot_locked)
          namespace:=$(arg namespace) "/>
 
@@ -60,8 +60,9 @@
   <!-- Node for simulating GPS aided IMU from P3D -->
   <node pkg="mrc_examples" type="p3d2nav.py" name="p3d2nav">
     <!-- The lat/lon location of the gazebo origin -->  
-    <param name="gazebo_origin_lat" value="44.0" type="double" />
-    <param name="gazebo_origin_long" value="9.0" type="double" />
+    <param name="gazebo_origin_lat" value="44.0952" type="double" />
+    <param name="gazebo_origin_long" value="9.8234" type="double" />
     <remap from="p3d_odom" to="cora/sensors/p3d"/>
+    <remap from="nav_odom" to="cora/sensors/p3d_nav/">
   </node>
 </launch>
