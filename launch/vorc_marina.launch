@@ -58,11 +58,11 @@
               -urdf -param $(arg namespace)/robot_description -model cora"/>
 
   <!-- Node for simulating GPS aided IMU from P3D -->
-  <node pkg="mrc_examples" type="p3d2nav.py" name="p3d2nav">
+  <node ns="$(arg namespace)/sensors" pkg="mrc_examples" type="p3d2nav.py" name="p3d2nav">
     <!-- The lat/lon location of the gazebo origin -->  
     <param name="gazebo_origin_lat" value="44.0952" type="double" />
     <param name="gazebo_origin_long" value="9.8234" type="double" />
-    <remap from="p3d_odom" to="cora/sensors/p3d"/>
-    <remap from="nav_odom" to="cora/sensors/p3d_nav/">
+    <remap from="p3d_odom" to="p3d"/>
+    <remap from="nav_odom" to="p3d_nav/"/>
   </node>
 </launch>
