@@ -56,4 +56,12 @@
         args="-x $(arg x) -y $(arg y) -z $(arg z)
               -R $(arg R) -P $(arg P) -Y $(arg Y)
               -urdf -param $(arg namespace)/robot_description -model cora"/>
+
+  <!-- Node for simulating GPS aided IMU from P3D -->
+  <node pkg="mrc_examples" type="p3d2nav.py" name="p3d2nav">
+    <!-- The lat/lon location of the gazebo origin -->  
+    <param name="gazebo_origin_lat" value="44.0" type="double" />
+    <param name="gazebo_origin_long" value="9.0" type="double" />
+    <remap from="p3d_odom" to="cora/sensors/p3d"/>
+  </node>
 </launch>
