@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 '''
 Rabbit node.
 '''
@@ -19,8 +19,8 @@ class Rabbit():
         self.wpcycle = wpcycle
         self.t0 = rospy.Time.now()
 
-        self.curr_wp = wpcycle.next()
-        self.next_wp = wpcycle.next()
+        self.curr_wp = next(wpcycle)
+        self.next_wp = next(wpcycle)
 
         self.pointpub = rospy.Publisher("rabbit", PointStamped, queue_size=1)
         self.point = PointStamped()
@@ -48,7 +48,7 @@ class Rabbit():
             self.point.point.y = self.next_wp[1]
             # Increment cycle
             self.curr_wp = self.next_wp
-            self.next_wp = wpcycle.next()
+            self.next_wp = next(wpcycle)
         else:
             # Find next point
             angle = atan2(float(self.next_wp[1]) - self.point.point.y,
