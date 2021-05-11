@@ -20,8 +20,8 @@ end
 usv_sub = rossubscriber('/cora/sensors/p3d',@usv_odom_callback, ...
     'DataFormat', 'struct');
 % Add another subscriber here for the rabbit!
-% For now we'll just assign a blank message
-RABBIT_POSITION = rosmessage('geometry_msgs/PointStamped');
+rabbit_sub = rossubscriber('/rabbit',@rabbit_callback,...
+    'DataFormat', 'struct');
 
 % Setup Publisher
 cmd_pub = rospublisher('/cora/cmd_vel','geometry_msgs/Twist');
