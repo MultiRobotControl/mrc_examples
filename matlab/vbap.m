@@ -30,10 +30,23 @@ cmd_msg = rosmessage(cmd_pub);
 % Infinite loop
 while true
     % Call a function to implement the VBAP algorithm.
-    [v_c, r_c] = vbap_slsv(USV_ODOM, RABBIT_POSITION);
+    if isempty(RABBIT_POSITION) 
+        disp('WARNING - Rabbit position is empty')
+        u_c = 0.0;
+        r_c = 0.0;
+    elseif isempty(USV_ODOM) 
+        disp('WARNING - USV odometry is empty')
+        u_c = 0.0;
+        r_c = 0.0;
+    else
+        %RABBIT_POSITION.Point.X = 20;
+        %RABBIT_POSITION.Point.Y = -372;c
+        [u_c, r_c] = vbap_slsv(USV_ODOM, RABBIT_POSITION);
+    end
+    
     
     % Publish the results
-    cmd_msg.Linear.X = v_c;
+    cmd_msg.Linear.X = u_c;
     cmd_msg.Angular.Z = r_c;
     send(cmd_pub, cmd_msg);
     
