@@ -13,8 +13,9 @@
   </link>
   <gazebo reference="rabbit_sphere">
     <material>Gazebo/Red</material>
+    <turnGravityOff>1</turnGravityOff>
   </gazebo>
   <gazebo>
-    <static>true</static>
+    <!--<static>true</static>-->
   </gazebo>
 </robot>
