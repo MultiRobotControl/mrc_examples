@@ -26,6 +26,8 @@ class Rabbit():
         self.point = PointStamped()
         self.point.point.x = self.curr_wp[0]
         self.point.point.y = self.curr_wp[1]
+        if len(self.curr_wp) > 2:
+            self.point.point.z = self.curr_wp[2]
         self.point.header.stamp = rospy.Time.now()
         self.point.header.frame_id = "gazebo"
         
@@ -46,6 +48,8 @@ class Rabbit():
             # Set to next
             self.point.point.x = self.next_wp[0]
             self.point.point.y = self.next_wp[1]
+            if len(self.next_wp) > 2:
+                self.point.point.z = self.next_wp[2]
             # Increment cycle
             self.curr_wp = self.next_wp
             self.next_wp = next(wpcycle)
