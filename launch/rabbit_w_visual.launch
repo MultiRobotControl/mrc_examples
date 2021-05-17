@@ -8,7 +8,7 @@
   </node>
 
   <!-- Spawn a visual model to serve as marker -->
-  <node name="spawn_model" pkg="gazebo_ros" type="spawn_model"
+  <node name="spawn_rabbit" pkg="gazebo_ros" type="spawn_model"
         args="-x 0 -y 0 -z 0 -file $(find mrc_examples)/urdf/rabbit.urdf
               -urdf -model rabbit"/>
 
