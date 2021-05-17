@@ -16,6 +16,6 @@ fi
 EXTS=("*.py" "*.sh")
 for EXT in "${EXTS[@]}"
 do 
-  find $1 -type f -name ${EXT} -print -exec chmod +x "{}" \;
+  find $1 -type f -name ${EXT} -exec chmod +x "{}" \;
 done
   

@@ -6,6 +6,8 @@ USERNAME="bbingham"
 
 # Change permissions on setup file
 chmod +x ~/${USERNAME}/catkin_ws/devel/_setup_util.py
+# And on a bunch of other files
+bash ~/${USERNAME}/catkin_ws/src/mrc_examples/scripts/set_executable.sh ${HOME}/${USERNAME}/catkin_ws/src
 
 # Setup for ROS
 source /opt/ros/noetic/setup.bash 
