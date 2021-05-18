@@ -34,7 +34,8 @@
     <!-- Set value on parameter server for robot description -->
     <param name="robot_description"
     	   command="$(find xacro)/xacro '$(arg urdf)'
-    	   namespace:=cora1/cora"/>
+    	   namespace:=cora
+    	   root_namespace:=cora1"/>
          
     <!-- Spawn USV model in Gazebo -->
     <node name="spawn_model" pkg="gazebo_ros" type="spawn_model"
@@ -51,18 +52,18 @@
       <remap from="nav_odom" to="p3d_nav/"/>
     </node>
   </group>
-
-
+  
   <!-- CoRa #2 -->
   <group ns="cora2">
     <!-- Set value on parameter server for robot description -->
     <param name="robot_description"
     	   command="$(find xacro)/xacro '$(arg urdf)'
-    	   namespace:=cora2/cora"/>
+    	   namespace:=cora
+    	   root_namespace:=cora2"/>
          
     <!-- Spawn USV model in Gazebo -->
     <node name="spawn_model" pkg="gazebo_ros" type="spawn_model"
-        args="-x 10 -y -352 -z 0.1
+        args="-x 10 -y -392 -z 0.1
               -R 0 -P 0 -Y 0
               -urdf -param robot_description -model cora2"/>
               
@@ -75,4 +76,5 @@
       <remap from="nav_odom" to="p3d_nav/"/>
     </node>
   </group>
+
 </launch>
