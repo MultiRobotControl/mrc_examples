@@ -1,17 +1,24 @@
 cmake_minimum_required(VERSION 3.0.2)
 project(mrc_examples)
 
-## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+find_package(catkin REQUIRED COMPONENTS
+  gazebo_dev
+  xacro
+)
 
-## Find catkin macros and libraries
-## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
-## is used, also find other catkin packages
-find_package(catkin REQUIRED)
 
-## System dependencies are found with CMake's conventions
-# find_package(Boost REQUIRED COMPONENTS system)
-
+catkin_package(
+  CATKIN_DEPENDS
+    gazebo_dev
+    xacro
+)
+# Run xacro to generate world files
+xacro_add_files(
+  worlds/marina.world.xacro
+  INSTALL DESTINATION worlds
+)
+install(DIRECTORY worlds/
+  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/worlds)
 
 ## Uncomment this if the package has a setup.py. This macro ensures
 ## modules and global scripts declared therein get installed

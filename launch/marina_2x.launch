@@ -2,7 +2,7 @@
 <launch>
   <env name="ROSCONSOLE_CONFIG_FILE" value="$(find vrx_gazebo)/config/custom_rosconsole.conf"/>
   <!-- Gazebo world to load -->
-  <arg name="world" default="$(find vorc_gazebo)/worlds/marina.world" />
+  <arg name="world" default="$(find mrc_examples)/worlds/marina.world" />
   <!-- If true, run gazebo GUI -->
   <arg name="gui" default="true" />
   <!-- If true, run gazebo in verbose mode -->
@@ -51,6 +51,26 @@
       <remap from="p3d_odom" to="p3d"/>
       <remap from="nav_odom" to="p3d_nav/"/>
     </node>
+    
+    <node ns="cora" pkg="usv_control" type="usv_control_diff_drive.py"
+  name="usv_control_diff_drive" output="screen">
+    <!-- Set initial control gains -->
+    <!-- Surge -->
+    <param name="velKp" value="1.1"/>
+    <param name="velKi" value="0.0"/>
+    <param name="velKd" value="0.0"/>
+    <!-- Yaw Rate -->
+    <param name="yawKp" value="2.5"/>
+    <param name="yawKi" value="1.0"/>
+    <param name="yawKd" value="0.0"/>
+
+    <!-- Use remap to connect generic controller to specific use-case -->
+    <remap from="nav_odom" to="sensors/p3d_nav"/>
+    <remap from="left_thrust_cmd" to="thrusters/left_thrust_cmd"/>
+    <remap from="right_thrust_cmd" to="thrusters/right_thrust_cmd"/>
+    <remap from="vel_pid_debug" to="control/vel_pid_debug"/>
+    <remap from="yaw_pid_debug" to="control/yaw_pid_debug"/>
+    </node>
   </group>
   
   <!-- CoRa #2 -->
@@ -75,6 +95,45 @@
       <remap from="p3d_odom" to="p3d"/>
       <remap from="nav_odom" to="p3d_nav/"/>
     </node>
+    
+        <node ns="cora" pkg="usv_control" type="usv_control_diff_drive.py"
+  name="usv_control_diff_drive" output="screen">
+    <!-- Set initial control gains -->
+    <!-- Surge -->
+    <param name="velKp" value="1.1"/>
+    <param name="velKi" value="0.0"/>
+    <param name="velKd" value="0.0"/>
+    <!-- Yaw Rate -->
+    <param name="yawKp" value="2.5"/>
+    <param name="yawKi" value="1.0"/>
+    <param name="yawKd" value="0.0"/>
+
+    <!-- Use remap to connect generic controller to specific use-case -->
+    <remap from="nav_odom" to="sensors/p3d_nav"/>
+    <remap from="left_thrust_cmd" to="thrusters/left_thrust_cmd"/>
+    <remap from="right_thrust_cmd" to="thrusters/right_thrust_cmd"/>
+    <remap from="vel_pid_debug" to="control/vel_pid_debug"/>
+    <remap from="yaw_pid_debug" to="control/yaw_pid_debug"/>
+    </node>
   </group>
+  
+  
+   <!-- Spawn a visual model to serve as marker -->
+  <node name="spawn_rabbit" pkg="gazebo_ros" type="spawn_model"
+        args="-x 20 -y -372 -z 0 -file $(find mrc_examples)/urdf/rabbit.urdf
+              -urdf -model rabbit"/>
+
+  <!-- Convert PointStamped messages to model states -->
+  <node name="pointstamped2modelstate" pkg="mrc_examples" type="pointstamped2modelstate.py" output="screen">
+    <param name="model_name" value="rabbit"/>
+    <param name="reference_frame" value="world"/>
+  </node>
+  
+  <node pkg="mrc_examples" type="rabbit.py" name="rabbit">
+    <param name="update_rate" type="double" value="10"/>
+    <param name="velocity" type="double" value="5"/>
+    <rosparam file="$(find mrc_examples)/config/rabbit_waypoints_marina.yaml" />
+  </node>  
+  
 
 </launch>
