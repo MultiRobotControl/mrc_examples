@@ -39,7 +39,7 @@
          
     <!-- Spawn USV model in Gazebo -->
     <node name="spawn_model" pkg="gazebo_ros" type="spawn_model"
-        args="-x 10 -y -372 -z 0.1
+        args="-x -250 -y -350 -z 0.1
               -R 0 -P 0 -Y 0
               -urdf -param robot_description -model cora1"/>
               
@@ -83,7 +83,7 @@
          
     <!-- Spawn USV model in Gazebo -->
     <node name="spawn_model" pkg="gazebo_ros" type="spawn_model"
-        args="-x 10 -y -392 -z 0.1
+        args="-x -250 -y -370 -z 0.1
               -R 0 -P 0 -Y 0
               -urdf -param robot_description -model cora2"/>
               
