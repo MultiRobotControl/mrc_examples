@@ -117,22 +117,11 @@
     </node>
   </group>
   
-  <!-- CoRa Red as target -->
-  <arg name="urdf_red" default="$(find mrc_examples)/urdf/cora_red.xacro"/>
+  <!-- Spawn a visual model to serve as marker -->
+  <node name="spawn_target" pkg="gazebo_ros" type="spawn_model"
+        args="-x 20 -y -372 -z 0 -file $(find mrc_examples)/urdf/target.urdf
+              -urdf -model target"/>
 
-  <group ns="target">
-    <!-- Set value on parameter server for robot description -->
-    <param name="robot_description"
-    	   command="$(find xacro)/xacro '$(arg urdf)'
-    	   namespace:=cora_red
-    	   root_namespace:=cora_target"/>
-         
-    <!-- Spawn USV model in Gazebo -->
-    <node name="spawn_model" pkg="gazebo_ros" type="spawn_model"
-        args="-x 30 -y -412 -z 0.1
-              -R 0 -P 0 -Y 0
-              -urdf -param robot_description -model cora_target"/>
-  </group>
    <!-- Spawn a visual model to serve as marker -->
   <node name="spawn_rabbit" pkg="gazebo_ros" type="spawn_model"
         args="-x 20 -y -372 -z 0 -file $(find mrc_examples)/urdf/rabbit.urdf
