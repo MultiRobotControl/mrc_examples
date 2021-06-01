@@ -11,11 +11,11 @@
       </geometry>
     </visual>
   </link>
-  <gazebo reference="rabbit_sphere">
+  <gazebo reference="target_sphere">
     <material>Gazebo/Red</material>
     <turnGravityOff>1</turnGravityOff>
   </gazebo>
-  <gazebo>
-    <!--<static>true</static>-->
-  </gazebo>
+  <!--<gazebo>
+    <static>true</static>
+  </gazebo>-->
 </robot>

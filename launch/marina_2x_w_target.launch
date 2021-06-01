@@ -119,7 +119,7 @@
   
   <!-- Spawn a visual model to serve as marker -->
   <node name="spawn_target" pkg="gazebo_ros" type="spawn_model"
-        args="-x 20 -y -372 -z 0 -file $(find mrc_examples)/urdf/target.urdf
+        args="-x -765 -y 875 -z 0 -file $(find mrc_examples)/urdf/target.urdf
               -urdf -model target"/>
 
    <!-- Spawn a visual model to serve as marker -->
