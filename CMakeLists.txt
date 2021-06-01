@@ -15,6 +15,7 @@ catkin_package(
 # Run xacro to generate world files
 xacro_add_files(
   worlds/marina.world.xacro
+  worlds/marina_project.world.xacro
   INSTALL DESTINATION worlds
 )
 install(DIRECTORY worlds/
