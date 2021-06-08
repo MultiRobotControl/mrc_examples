@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<launch>
+  <node pkg="mrc_examples" type="rabbit.py" name="rabbit" output="screen">
+    <param name="update_rate" type="double" value="10"/>
+    <rosparam file="$(find mrc_examples)/config/rabbit_waypoints_variablevelocity.yaml" />
+  </node>  
+</launch>

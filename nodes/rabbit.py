@@ -28,6 +28,8 @@ class Rabbit():
         self.point.point.y = self.curr_wp[1]
         if len(self.curr_wp) > 2:
             self.point.point.z = self.curr_wp[2]
+        if len(self.curr_wp) > 3:
+            self.velocity = self.curr_wp[3]
         self.point.header.stamp = rospy.Time.now()
         self.point.header.frame_id = "gazebo"
         
@@ -53,6 +55,8 @@ class Rabbit():
             # Increment cycle
             self.curr_wp = self.next_wp
             self.next_wp = next(wpcycle)
+            if len(self.curr_wp) > 3:
+                self.velocity = self.curr_wp[3]
         else:
             # Find next point
             angle = atan2(float(self.next_wp[1]) - self.point.point.y,
