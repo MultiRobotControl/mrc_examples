@@ -16,20 +16,18 @@
   robotNamespace parameter -->
   <xacro:arg name="namespace" default="cora"/>
   <xacro:property name="namespace" value="$(arg namespace)" scope="global" />
-  <!-- Thrusters mess this up - so this is hack - TODO Fix! -->
-  <xacro:arg name="root_namespace" default=""/>
-  <xacro:property name="root_namespace" value="$(arg root_namespace)" scope="global" />
+
   <!-- Thrusters -->
   <xacro:arg name="thruster_namespace" default="thrusters/"/>
   <xacro:property name="thruster_namespace" value="$(arg thruster_namespace)" scope="global" />
-  <xacro:include filename="$(find mrc_examples)/urdf/thrusters.xacro" />
+  <xacro:include filename="$(find cora_description)/urdf/thrusters.xacro" />
 
   <!-- Decide if we lock the robot to the world -->
   <xacro:if value="$(arg locked)">
     <gazebo>
       <link name="cora_external_link"/>
       <joint name="cora_external_pivot_joint" type="universal">
-        <parent>cora::base_link</parent>
+        <parent>cora::cora/base_link</parent>
         <child>cora_external_link</child>
         <axis>
           <xyz>1 0 0</xyz>
@@ -59,18 +57,20 @@
   <xacro:property name="camera_namespace" value="$(arg camera_namespace)" scope="global" />
   <xacro:property name="sensor_namespace" value="$(arg sensor_namespace)" scope="global" />
   <xacro:property name="pinger_namespace" value="$(arg pinger_namespace)" scope="global" />
-  <xacro:wamv_camera name="front_left_camera"  x="-0.61" y="0.2"  z="4.7" post_z_from="4.6" P="${radians(15)}" />
-  <xacro:wamv_camera name="front_right_camera" x="-0.61" y="-0.2" z="4.7" post_z_from="4.6" P="${radians(15)}" />
-  <xacro:lidar name="front_lidar" type="16_beam" x="-0.595" z="5" P="${radians(8)}" post_z_from="4.6"/>
-  <xacro:wamv_gps name="gps" x="-1.0" z="4.6" lat="44.09525149" lon="9.823435727" update_rate="20" />
-  <xacro:include filename="$(find mrc_examples)/urdf/cora_imu.xacro"/>
-  <xacro:cora_imu name="imu" y="-0.2" z="1.0" update_rate="100" />
-
-  <xacro:wamv_pinger name="pinger" frameId="cora/pinger" />
+  
+  <xacro:wamv_camera name="front_left_camera"  x="-0.61" y="0.2"  z="4.7" 
+  post_z_from="4.6" P="${radians(15)}" />
+  <xacro:wamv_camera name="front_right_camera" x="-0.61" y="-0.2" z="4.7" 
+  post_z_from="4.6" P="${radians(15)}" />
+  <xacro:lidar name="front_lidar" type="16_beam" x="-0.595" z="5" 
+  P="${radians(8)}" post_z_from="4.6"/>
+  <xacro:wamv_gps name="gps" x="-1.0" z="4.6" 
+  	update_rate="20" />
+  <xacro:wamv_imu name="imu" y="-0.2" z="1.0" update_rate="100" />
 
  <gazebo>
       <plugin name="p3d_plugin_cora" filename="libgazebo_ros_p3d.so">
-        <bodyName>base_link</bodyName>
+        <bodyName>cora/base_link</bodyName>
         <frameName>map</frameName>
         <updateRate>10.0</updateRate>
         <topicName>cora/sensors/p3d</topicName>
