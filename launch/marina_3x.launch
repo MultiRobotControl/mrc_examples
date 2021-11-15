@@ -1,0 +1,139 @@
+<?xml version="1.0"?>
+<launch>
+  <env name="ROSCONSOLE_CONFIG_FILE" value="$(find vrx_gazebo)/config/custom_rosconsole.conf"/>
+  <!-- Gazebo world to load -->
+  <arg name="world" default="$(find mrc_examples)/worlds/marina.world" />
+  <!-- If true, run gazebo GUI -->
+  <arg name="gui" default="true" />
+  <!-- If true, run gazebo in verbose mode -->
+  <arg name="verbose" default="false"/>
+  <!-- Set various other gazebo arguments-->
+  <arg name="extra_gazebo_args" default=""/>
+  <!-- Start in a default namespace -->
+  <arg name="namespace" default="cora"/>
+  <!-- Do we lock the vessel to the world? -->
+  <arg name="robot_locked" default="false" />
+  <!-- Start paused? -->
+  <arg name="paused" default="false"/>
+
+  <!-- Start Gazebo with the world file -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name"   value="$(arg world)"/>
+    <arg name="verbose"      value="$(arg verbose)"/>
+    <arg name="paused"       value="$(arg paused)"/>
+    <arg name="use_sim_time" value="true"/>
+    <arg name="gui"          value="$(arg gui)" />
+    <arg name="extra_gazebo_args" value="$(arg extra_gazebo_args)"/>
+  </include>
+
+  <!-- Set variable for URDF file -->
+  <arg name="urdf" default="$(find mrc_examples)/urdf/cora_p3d.xacro"/>
+
+  <!-- CoRa #1 -->
+  <group ns="cora1">
+    <!-- Set value on parameter server for robot description -->
+    <param name="robot_description"
+    	   command="$(find xacro)/xacro '$(arg urdf)'
+    	   namespace:=cora
+    	   root_namespace:=cora1"/>
+         
+    <!-- Spawn USV model in Gazebo -->
+    <node name="spawn_model" pkg="gazebo_ros" type="spawn_model"
+        args="-x 10 -y -372 -z 0.1
+              -R 0 -P 0 -Y 0
+              -urdf -param robot_description -model cora1"/>
+              
+    <!-- Node for simulating GPS aided IMU from P3D -->
+    <node ns="cora/sensors" pkg="mrc_examples" type="p3d2nav.py" name="p3d2nav">
+      <!-- The lat/lon location of the gazebo origin -->  
+      <param name="gazebo_origin_lat" value="44.0952" type="double" />
+      <param name="gazebo_origin_long" value="9.8234" type="double" />
+      <remap from="p3d_odom" to="p3d"/>
+      <remap from="nav_odom" to="p3d_nav/"/>
+    </node>
+    
+    <node ns="cora" pkg="usv_control" type="usv_control_diff_drive.py"
+  name="usv_control_diff_drive" output="screen">
+    <!-- Set initial control gains -->
+    <!-- Surge -->
+    <param name="velKp" value="1.1"/>
+    <param name="velKi" value="0.0"/>
+    <param name="velKd" value="0.0"/>
+    <!-- Yaw Rate -->
+    <param name="yawKp" value="2.5"/>
+    <param name="yawKi" value="1.0"/>
+    <param name="yawKd" value="0.0"/>
+
+    <!-- Use remap to connect generic controller to specific use-case -->
+    <remap from="nav_odom" to="sensors/p3d_nav"/>
+    <remap from="left_thrust_cmd" to="thrusters/left_thrust_cmd"/>
+    <remap from="right_thrust_cmd" to="thrusters/right_thrust_cmd"/>
+    <remap from="vel_pid_debug" to="control/vel_pid_debug"/>
+    <remap from="yaw_pid_debug" to="control/yaw_pid_debug"/>
+    </node>
+  </group>
+  
+  <!-- CoRa #2 -->
+  <group ns="cora2">
+    <!-- Set value on parameter server for robot description -->
+    <param name="robot_description"
+    	   command="$(find xacro)/xacro '$(arg urdf)'
+    	   namespace:=cora
+    	   root_namespace:=cora2"/>
+         
+    <!-- Spawn USV model in Gazebo -->
+    <node name="spawn_model" pkg="gazebo_ros" type="spawn_model"
+        args="-x 10 -y -392 -z 0.1
+              -R 0 -P 0 -Y 0
+              -urdf -param robot_description -model cora2"/>
+              
+    <!-- Node for simulating GPS aided IMU from P3D -->
+    <node ns="cora/sensors" pkg="mrc_examples" type="p3d2nav.py" name="p3d2nav">
+      <!-- The lat/lon location of the gazebo origin -->  
+      <param name="gazebo_origin_lat" value="44.0952" type="double" />
+      <param name="gazebo_origin_long" value="9.8234" type="double" />
+      <remap from="p3d_odom" to="p3d"/>
+      <remap from="nav_odom" to="p3d_nav/"/>
+    </node>
+    
+        <node ns="cora" pkg="usv_control" type="usv_control_diff_drive.py"
+  name="usv_control_diff_drive" output="screen">
+    <!-- Set initial control gains -->
+    <!-- Surge -->
+    <param name="velKp" value="1.1"/>
+    <param name="velKi" value="0.0"/>
+    <param name="velKd" value="0.0"/>
+    <!-- Yaw Rate -->
+    <param name="yawKp" value="2.5"/>
+    <param name="yawKi" value="1.0"/>
+    <param name="yawKd" value="0.0"/>
+
+    <!-- Use remap to connect generic controller to specific use-case -->
+    <remap from="nav_odom" to="sensors/p3d_nav"/>
+    <remap from="left_thrust_cmd" to="thrusters/left_thrust_cmd"/>
+    <remap from="right_thrust_cmd" to="thrusters/right_thrust_cmd"/>
+    <remap from="vel_pid_debug" to="control/vel_pid_debug"/>
+    <remap from="yaw_pid_debug" to="control/yaw_pid_debug"/>
+    </node>
+  </group>
+  
+  
+   <!-- Spawn a visual model to serve as marker -->
+  <node name="spawn_rabbit" pkg="gazebo_ros" type="spawn_model"
+        args="-x 20 -y -372 -z 0 -file $(find mrc_examples)/urdf/rabbit.urdf
+              -urdf -model rabbit"/>
+
+  <!-- Convert PointStamped messages to model states -->
+  <node name="pointstamped2modelstate" pkg="mrc_examples" type="pointstamped2modelstate.py" output="screen">
+    <param name="model_name" value="rabbit"/>
+    <param name="reference_frame" value="world"/>
+  </node>
+  
+  <node pkg="mrc_examples" type="rabbit.py" name="rabbit">
+    <param name="update_rate" type="double" value="10"/>
+    <param name="velocity" type="double" value="5"/>
+    <rosparam file="$(find mrc_examples)/config/rabbit_waypoints_marina.yaml" />
+  </node>  
+  
+
+</launch>
