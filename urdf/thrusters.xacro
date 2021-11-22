@@ -122,8 +122,8 @@
 	<linkName>${tf_prefix}/${namespace}/left_propeller_link</linkName>
 	<propJointName>${tf_prefix}/${namespace}/left_engine_propeller_joint</propJointName>
 	<engineJointName>${tf_prefix}/${namespace}/left_chasis_engine_joint</engineJointName>
-	<cmdTopic>${tf_prefix}/${namespace}/left_thrust_cmd</cmdTopic>
-	<angleTopic>${tf_prefix}/${namespace}/left_thrust_angle</angleTopic>
+	<cmdTopic>${namespace}/${thruster_namespace}/left_thrust_cmd</cmdTopic>
+	<angleTopic>${namespace}/${thruster_namespace}/left_thrust_angle</angleTopic>
 	<enableAngle>false</enableAngle>
 	<!-- Optional Parameters -->
 	<mappingType>0</mappingType>
@@ -139,8 +139,8 @@
 	<linkName>${tf_prefix}/${namespace}/right_propeller_link</linkName>
 	<propJointName>${tf_prefix}/${namespace}/right_engine_propeller_joint</propJointName>
 	<engineJointName>${tf_prefix}/${namespace}/right_chasis_engine_joint</engineJointName>
-	<cmdTopic>${tf_prefix}/${namespace}/right_thrust_cmd</cmdTopic>
-	<angleTopic>${tf_prefix}/${namespace}/right_thrust_angle</angleTopic>
+	<cmdTopic>${namespace}/${thruster_namespace}/right_thrust_cmd</cmdTopic>
+	<angleTopic>${namespace}/${thruster_namespace}/right_thrust_angle</angleTopic>
 	<enableAngle>false</enableAngle>
 	<!-- Optional Parameters -->
 	<mappingType>0</mappingType>
