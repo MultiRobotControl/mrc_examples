@@ -71,9 +71,13 @@
     <remap from="vel_pid_debug" to="control/vel_pid_debug"/>
     <remap from="yaw_pid_debug" to="control/yaw_pid_debug"/>
     </node>
+
+    <node pkg="robot_state_publisher" type="robot_state_publisher"
+	  name="robot_state_publisher">
+      <!--<param name="tf_prefix" value="cora1"/>-->
+    </node>
   </group>
-  
-    
+
   <!-- Rabbit Visualization:
        Spawn a visual model to serve as marker -->
   <node name="spawn_rabbit" pkg="gazebo_ros" type="spawn_model"

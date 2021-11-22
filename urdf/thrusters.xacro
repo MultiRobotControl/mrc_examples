@@ -2,7 +2,7 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
 
   <!-- Dummy link, which usv_gazebo_thrust_plugin looks for -->
-  <link name="left_engine_link">
+  <link name="${tf_prefix}/${namespace}/left_engine_link">
     <inertial>
       <mass value="0.1"/>
       <inertia ixx="0.00889245" ixy="0.0" ixz="0.0" iyy="0.00911125" iyz="0.0" izz="0.00078125"/>
@@ -10,7 +10,7 @@
   </link>
 
   <!-- No additional collision, since propeller is inside robot body -->
-  <link name="left_propeller_link">
+  <link name="${tf_prefix}/${namespace}/left_propeller_link">
     <visual>
       <geometry>
         <mesh filename="package://cora_description/models/meshes/propellerL.dae"/>
@@ -40,25 +40,25 @@
   </link>
 
   <!-- Dummy joint, which usv_gazebo_thrust_plugin looks for -->
-  <joint name="left_chasis_engine_joint" type="revolute">
+  <joint name="${tf_prefix}/${namespace}/left_chasis_engine_joint" type="revolute">
     <axis xyz="0 0 1"/>
     <origin rpy="0 0 0" xyz="-6.103 0.911 0.016"/>
-    <parent link="cora/base_link"/>
-    <child link="left_engine_link"/>
+    <parent link="${tf_prefix}/${namespace}/base_link"/>
+    <child link="${tf_prefix}/${namespace}/left_engine_link"/>
     <limit lower="${-pi}" upper="${pi}" effort="10" velocity="10"/>
   </joint>
 
-  <joint name="left_engine_propeller_joint" type="continuous">
+  <joint name="${tf_prefix}/${namespace}/left_engine_propeller_joint" type="continuous">
     <axis rpy="0 0 0" xyz="1 0 0"/>
     <origin xyz="0 0 0" rpy="0 0 0"/>
-    <parent link="left_engine_link"/>
-    <child link="left_propeller_link"/>
+    <parent link="${tf_prefix}/${namespace}/left_engine_link"/>
+    <child link="${tf_prefix}/${namespace}/left_propeller_link"/>
     <limit effort="100" velocity="100" />
     <dynamics friction="0.05" damping="0.05" />
   </joint>
 
   <!-- Dummy link, which usv_gazebo_thrust_plugin looks for -->
-  <link name="right_engine_link">
+  <link name="${tf_prefix}/${namespace}/right_engine_link">
     <inertial>
       <mass value="0.1"/>
       <inertia ixx="0.00889245" ixy="0.0" ixz="0.0" iyy="0.00911125" iyz="0.0" izz="0.00078125"/>
@@ -66,7 +66,7 @@
   </link>
 
   <!-- No additional collision, since propeller is inside robot body -->
-  <link name="right_propeller_link">
+  <link name="${tf_prefix}/${namespace}/right_propeller_link">
     <visual>
       <geometry>
         <mesh filename="package://cora_description/models/meshes/propellerR.dae"/>
@@ -96,19 +96,19 @@
   </link>
 
   <!-- Dummy joint, which usv_gazebo_thrust_plugin looks for -->
-  <joint name="right_chasis_engine_joint" type="revolute">
+  <joint name="${tf_prefix}/${namespace}/right_chasis_engine_joint" type="revolute">
     <axis xyz="0 0 1"/>
     <origin rpy="0 0 0" xyz="-6.103 -0.911 0.016"/>
-    <parent link="cora/base_link"/>
-    <child link="right_engine_link"/>
+    <parent link="${tf_prefix}/${namespace}/base_link"/>
+    <child link="${tf_prefix}/${namespace}/right_engine_link"/>
     <limit lower="${-pi}" upper="${pi}" effort="10" velocity="10"/>
   </joint>
 
-  <joint name="right_engine_propeller_joint" type="continuous">
+  <joint name="${tf_prefix}/${namespace}/right_engine_propeller_joint" type="continuous">
     <axis rpy="0 0 0" xyz="1 0 0"/>
     <origin xyz="0 0 0" rpy="0 0 0"/>
-    <parent link="right_engine_link"/>
-    <child link="right_propeller_link"/>
+    <parent link="${tf_prefix}/${namespace}/right_engine_link"/>
+    <child link="${tf_prefix}/${namespace}/right_propeller_link"/>
     <limit effort="100" velocity="100" />
     <dynamics friction="0.05" damping="0.05" />
   </joint>
@@ -116,11 +116,40 @@
   <gazebo>
     <plugin name="cora_gazebo_thrust" filename="libusv_gazebo_thrust_plugin.so">
       <cmdTimeout>1.0</cmdTimeout>
-      <robotNamespace>${root_namespace}/${namespace}</robotNamespace>
-      <xacro:include filename="$(find cora_description)/urdf/cora_thruster_config.xacro" />
-      <!-- Angle must be disabled for VORC -->
-      <xacro:cora_thruster_config name="left" />
-      <xacro:cora_thruster_config name="right" />
+      <!-- Left -->
+      <thruster>
+	<!-- Required Parameters -->
+	<linkName>${tf_prefix}/${namespace}/left_propeller_link</linkName>
+	<propJointName>${tf_prefix}/${namespace}/left_engine_propeller_joint</propJointName>
+	<engineJointName>${tf_prefix}/${namespace}/left_chasis_engine_joint</engineJointName>
+	<cmdTopic>${tf_prefix}/${namespace}/left_thrust_cmd</cmdTopic>
+	<angleTopic>${tf_prefix}/${namespace}/left_thrust_angle</angleTopic>
+	<enableAngle>false</enableAngle>
+	<!-- Optional Parameters -->
+	<mappingType>0</mappingType>
+	<maxCmd>1.0</maxCmd>
+	<maxForceFwd>120000.0</maxForceFwd>
+	<maxForceRev>-50000.0</maxForceRev>
+	<maxAngle>${pi/2}</maxAngle>
+      </thruster>
+
+      <!-- Right -->
+      <thruster>
+	<!-- Required Parameters -->
+	<linkName>${tf_prefix}/${namespace}/right_propeller_link</linkName>
+	<propJointName>${tf_prefix}/${namespace}/right_engine_propeller_joint</propJointName>
+	<engineJointName>${tf_prefix}/${namespace}/right_chasis_engine_joint</engineJointName>
+	<cmdTopic>${tf_prefix}/${namespace}/right_thrust_cmd</cmdTopic>
+	<angleTopic>${tf_prefix}/${namespace}/right_thrust_angle</angleTopic>
+	<enableAngle>false</enableAngle>
+	<!-- Optional Parameters -->
+	<mappingType>0</mappingType>
+	<maxCmd>1.0</maxCmd>
+	<maxForceFwd>120000.0</maxForceFwd>
+	<maxForceRev>-50000.0</maxForceRev>
+	<maxAngle>${pi/2}</maxAngle>
+      </thruster>
+
     </plugin>
   </gazebo>
 
