@@ -50,7 +50,7 @@
   <xacro:include filename="$(find mrc_examples)/urdf/cora_3d_lidar.xacro"/>
   <xacro:cora_3d_lidar name="lidar"
                            x="-0.595" y="0" z="5"
-                           R="0" P="0" Y="0"
+                           R="0" P="${radians(0)}" Y="0"
                            post_Y="0" post_z_from="4.6"
                            vertical_lasers="16"/>
   

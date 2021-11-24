@@ -6,7 +6,7 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
-        - /RobotModel1
+        - /Grid1
         - /RobotModel1/Status1
         - /RobotModel1/Links1
         - /PointCloud21
@@ -31,7 +31,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: PointCloud2
 Preferences:
   PromptSaveOnExit: true
 Toolbars:
@@ -40,7 +40,7 @@ Visualization Manager:
   Class: ""
   Displays:
     - Alpha: 0.5
-      Cell Size: 1
+      Cell Size: 10
       Class: rviz/Grid
       Color: 160; 160; 164
       Enabled: true
@@ -54,7 +54,7 @@ Visualization Manager:
         Y: 0
         Z: 0
       Plane: XY
-      Plane Cell Count: 10
+      Plane Cell Count: 100
       Reference Frame: <Fixed Frame>
       Value: true
     - Alpha: 1
@@ -140,7 +140,7 @@ Visualization Manager:
       Channel Name: intensity
       Class: rviz/PointCloud2
       Color: 255; 255; 255
-      Color Transformer: ""
+      Color Transformer: Intensity
       Decay Time: 0
       Enabled: true
       Invert Rainbow: false
@@ -151,9 +151,9 @@ Visualization Manager:
       Queue Size: 10
       Selectable: true
       Size (Pixels): 3
-      Size (m): 0.10000000149011612
+      Size (m): 0.5
       Style: Flat Squares
-      Topic: /cora1/cora/sensors/lidars/front_lidar/points
+      Topic: /cora1/cora/sensors/lidars/lidar/points
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
@@ -162,7 +162,7 @@ Visualization Manager:
   Global Options:
     Background Color: 48; 48; 48
     Default Light: true
-    Fixed Frame: cora1/cora/base_link
+    Fixed Frame: cora1/cora/dummy_link
     Frame Rate: 30
   Name: root
   Tools:
@@ -186,7 +186,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 22.412479400634766
+      Distance: 342.7313232421875
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -194,17 +194,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 1.3711485862731934
-        Y: -0.17654018104076385
-        Z: 2.381542444229126
+        X: -28.897642135620117
+        Y: -9.767578125
+        Z: 13.797316551208496
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: 0.759797215461731
+      Pitch: 0.434797465801239
       Target Frame: <Fixed Frame>
-      Yaw: 3.0104053020477295
+      Yaw: 1.7004024982452393
     Saved: ~
 Window Geometry:
   Displays:
