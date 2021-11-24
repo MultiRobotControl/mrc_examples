@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Start RVIZ with config file -->
+  <node type="rviz" name="rviz" pkg="rviz"
+	args="-d $(find mrc_examples)/config/cora1.rviz" />
+</launch>
